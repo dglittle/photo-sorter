@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 var imageSchema = new mongoose.Schema({
 	url		 : String,
-	albumId	 : mongoose.Schema.Types.ObjectId
+	albumId	 : { type: mongoose.Schema.Types.ObjectId, ref: 'Albums' }
 });
 
 imageSchema.methods.getByAlbumId = function(albumId, cb) {
@@ -15,7 +15,7 @@ imageSchema.methods.random = function(albumId, cb) {
 			return cb(err);
 		}
 		var rand = Math.floor(Math.random() * count);
-		this.model('Images').findOne({ albumId: albumId }).skip(rand).exec(cb);
+		this.model('Images').find({ albumId: albumId }).skip(rand).limit(2).exec(cb);
 	}.bind(this));
 };
 

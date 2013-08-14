@@ -15,22 +15,12 @@ exports.sort = function(req, res) {
 	var albumId = req.query.albumId;
 	var count = 2;
 	var arr = [];
-	var exec = function(data) {
-		if (arr.indexOf(data) === -1) {
-			arr.push(data);
-			count--;
-			if (!count) {
-				res.render('sort', { images : arr });
-			}
+	models('image')().random(albumId, function(err, images) {
+		if (!err) {
+			console.log(images)
+			res.render('sort', { images : images });
+		} else {
+			res.end('Error loading sorting');
 		}
-	};
-	while(count) {
-		models('image')().random(albumId, function(err, image) {
-			if (!err) {
-				exec(image);
-			} else {
-				res.end('Error loading sorting');
-			}
-		});
-	}
+	});
 };

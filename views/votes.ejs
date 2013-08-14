@@ -1,0 +1,15 @@
+<h1>Votes</h1>
+<div class="content">
+	<div class="row-fluid">
+		<div class="span12">
+			<table id="votes" class="table table-striped">
+				<% for(var i = 0; i < votes.length; i++) { %>
+					<tr>
+						<td class="<%= if (votes[i].vote == votes[i].shownPhotos[0].url) 'winner' %>"><img src="<%= votes[i].shownPhotos[0].url %>" /></td>
+						<td class="<%= if (votes[i].vote == votes[i].shownPhotos[1].url) 'winner' %>"><img src="<%= votes[i].shownPhotos[1].url %>" /></td>
+					</tr>
+				<% } %>
+			</table>
+		</div>
+	</div>
+</div>
