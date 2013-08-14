@@ -1,0 +1,16 @@
+body {
+  padding: 50px;
+  font: 14px "Lato", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.imageContainer img {
+	width: 200px;
+}
+
+#album img {
+	width: 300px;
+}
