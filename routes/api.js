@@ -5,7 +5,7 @@ var models = require('../models');
 var uristring = 
 	process.env.MONGOLAB_URI || 
 	process.env.MONGOHQ_URL || 
-	'mongodb://photosorter:1234554321@ds037508.mongolab.com:37508/photosorter';
+	'mongodb://photosorter:1234554321@ds039768.mongolab.com:39768/photosorter';
 
 mongoose.connect(uristring, function (err, res) {
 	if (err) { 
@@ -73,5 +73,23 @@ exports.handleImageNew = function(req, res) {
 	image.save(function() {
 		res.write('OK');
 		res.end();
+	});
+};
+
+exports.handleVote = function(req, res) {
+	var albumId = req.body.albumId;
+	var photos = req.body.photos;
+	var voted = req.body.voted;
+	var vote = models('vote')({ albumId: albumId, shownPhotos: photos, vote: voted });
+	vote.save(function() {
+		res.write('OK');
+		res.end();
+	})
+};
+
+exports.handleAlbumsVotes = function(req, res) {
+	var albumId = req.params.id;
+	models('vote')().getByAlbumId(albumId, function(votes) {
+		res.render('votes', { votes: votes });
 	});
 };

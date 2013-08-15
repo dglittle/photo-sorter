@@ -7,6 +7,7 @@
 		<% if(album.images.length >= 2) { %>
 			<div class="span4">
 				<a id="sortLink" href="/sort?albumId=<%= album._id %>">Sort link</a>
+				<a id="votes" href="#">Votes link</a>
 			</div>
 		<% } %>
 	</div>
@@ -16,6 +17,7 @@
 				<% for(var i = 0; i < album.images.length; i++) { %>
 					<tr>
 						<td><img src="<%= album.images[i].url %>" /></td>
+						<td><span class="votesCount">50</span></td>
 					</tr>
 				<% } %>
 			</table>
@@ -47,7 +49,16 @@
 		$('#addImageForm').on('submit', function(event) {
 			event.preventDefault();
 			$.post('/api/albums/<%= album._id %>', { url: $('#url').val() }).then(function() {
-
+				$('#newImage').modal('hide');
+				$.get('/api/albums/<%= album._id %>', function(votes) {
+					$('.content').html(votes);
+				});
+			});
+		});
+		$('#votes').on('click', function(event) {
+			event.preventDefault();
+			$.get('/api/albums/<%= album._id %>/votes', function(votes) {
+				$('.content').html(votes);
 			});
 		});
 	});

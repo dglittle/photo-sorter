@@ -12,7 +12,8 @@ $(function() {
 	$('#name').on('submit', function(event) {
 		event.preventDefault();
 		$.post('/api/albums', {name : $('#newName').val()}, function() {
-			
+			$('#add').modal('hide');
+			location.reload();
 		});
 	});
 });
