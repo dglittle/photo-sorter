@@ -14,3 +14,15 @@ a {
 #album img {
 	width: 300px;
 }
+
+#votes img {
+	width: 300px;
+}
+
+#votes .winner {
+	border: solid 1px blue;
+}
+
+.votesCount {
+	font-size: 72px;
+}

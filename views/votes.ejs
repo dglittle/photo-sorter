@@ -3,12 +3,34 @@
 	<div class="row-fluid">
 		<div class="span12">
 			<table id="votes" class="table table-striped">
-				<% for(var i = 0; i < votes.length; i++) { %>
-					<tr>
-						<td class="<%= if (votes[i].vote == votes[i].shownPhotos[0].url) 'winner' %>"><img src="<%= votes[i].shownPhotos[0].url %>" /></td>
-						<td class="<%= if (votes[i].vote == votes[i].shownPhotos[1].url) 'winner' %>"><img src="<%= votes[i].shownPhotos[1].url %>" /></td>
-					</tr>
-				<% } %>
+				<thead>
+					<th>WINNER</th>
+					<th>LOSER</th>
+				</thead>
+				<tbody>
+					<% for(var i = 0; i < votes.length; i++) { %>
+						<tr>
+							<td>
+								<img src="
+									<% if (votes[i].vote.toString() == votes[i].shownPhotos[0]._id.toString()) { %>
+										<%= votes[i].shownPhotos[0].url %>
+									<% } else { %>
+										<%= votes[i].shownPhotos[1].url %>
+									<% } %>
+								" />
+							</td>
+							<td>
+								<img src="
+									<% if (votes[i].vote.toString() == votes[i].shownPhotos[0]._id.toString()) { %>
+										<%= votes[i].shownPhotos[1].url %>
+									<% } else { %>
+										<%= votes[i].shownPhotos[0].url %>
+									<% } %>
+								" />
+							</td>
+						</tr>
+					<% } %>
+				</tbody>
 			</table>
 		</div>
 	</div>

@@ -15,13 +15,10 @@
 		<div class="span12">
 			<table id="album" class="table table-striped">
 				<% for(var i = 0; i < album.images.length; i++) { %>
-					<% if (i%4 == 0) { %>
-						<tr>
-					<% } %>
+					<tr>
 						<td><img src="<%= album.images[i].url %>" /></td>
-					<% if (i%4 == 0) { %>
-						</tr>
-					<% } %>
+						<td><span class="votesCount">50</span></td>
+					</tr>
 				<% } %>
 			</table>
 		</div>
@@ -52,7 +49,10 @@
 		$('#addImageForm').on('submit', function(event) {
 			event.preventDefault();
 			$.post('/api/albums/<%= album._id %>', { url: $('#url').val() }).then(function() {
-
+				$('#newImage').modal('hide');
+				$.get('/api/albums/<%= album._id %>', function(votes) {
+					$('.content').html(votes);
+				});
 			});
 		});
 		$('#votes').on('click', function(event) {
