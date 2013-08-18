@@ -13,15 +13,18 @@
 				<div class="span6 well imageContainer">
 					<div class="row-fluid">
 						<img src="<%= images[0].url %>" />
-						<button class="btn vote" vote-id="<%= images[0]._id %>">Vote</button>
+						<button class="btn vote btn-success" vote-id="<%= images[0]._id %>">Vote</button>
 					</div>
 				</div>
 				<div class="span6 well imageContainer">
 					<div class="row-fluid">
 						<img src="<%= images[1].url %>" />
-						<button class="btn vote" vote-id="<%= images[1]._id %>">Vote</button>
+						<button class="btn vote btn-success" vote-id="<%= images[1]._id %>">Vote</button>
 					</div>
 				</div>
+			</div>
+			<div class="row-fluid">
+				<button class="btn btn-info" id="skip">Skip</button>
 			</div>
 		</div>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -40,6 +43,9 @@
 							location.reload();
 						}
 					);
+				});
+				$('#skip').on('click', function(event) {
+					location.reload();
 				});
 			});
 		</script>

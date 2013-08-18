@@ -40,6 +40,8 @@ app.post('/api/albums/:id', api.handleImageNew);
 
 app.post('/api/vote', api.handleVote);
 
+app.delete('/api/images/:id', api.handleDeleteImage);
+
 http.createServer(app).listen(app.get('port'), function(){
 	console.log('Express server listening on port ' + app.get('port'));
 });

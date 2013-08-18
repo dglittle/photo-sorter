@@ -39,13 +39,14 @@ exports.handleAlbums = function(req, res) {
 
 exports.handleAlbumsId = function(req, res) {
 	var id = req.params.id;
+	var vote = models('vote');
 	models('album').findById(id, function(err, album) {
 		if (!err) {
 			var userId = auth(req, album.userId);
 			if (!userId) {
 				res.end('Unauthorized');
 			}
-			models('image')().getByAlbumId(album._id, function(err, images) {
+			models('image')().getByAlbumId(album._id, function(images) {
 				album.images = images;
 				res.render('album', { album: album });
 			});
@@ -81,15 +82,36 @@ exports.handleVote = function(req, res) {
 	var photos = req.body.photos;
 	var voted = req.body.voted;
 	var vote = models('vote')({ albumId: albumId, shownPhotos: photos, vote: voted });
-	vote.save(function() {
-		res.write('OK');
-		res.end();
-	})
+	vote.save();
+	var count = 2;
+	var end = function(res) {
+		count--;
+		if (count === 0) {
+			res.write('OK');
+			res.end();
+		}
+	};
+	photos.forEach(function(value) {
+		models('image').findById(value, function(err, image) {
+			image.votes.push(vote);
+			image.save(function() {
+				end(res);
+			});
+		});
+	});
 };
 
 exports.handleAlbumsVotes = function(req, res) {
 	var albumId = req.params.id;
 	models('vote')().getByAlbumId(albumId, function(votes) {
 		res.render('votes', { votes: votes });
+	});
+};
+
+exports.handleDeleteImage = function(req, res) {
+	var imageId = req.params.id;
+	models('image').remove({ _id: imageId }, function() {
+		res.write('OK');
+		res.end();
 	});
 };
