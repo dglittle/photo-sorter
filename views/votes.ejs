@@ -1,0 +1,37 @@
+<h1>Votes</h1>
+<div class="content">
+	<div class="row-fluid">
+		<div class="span12">
+			<table id="votes" class="table table-striped">
+				<thead>
+					<th>WINNER</th>
+					<th>LOSER</th>
+				</thead>
+				<tbody>
+					<% for(var i = 0; i < votes.length; i++) { %>
+						<tr>
+							<td>
+								<img src="
+									<% if (votes[i].vote.toString() == votes[i].shownPhotos[0]._id.toString()) { %>
+										<%= votes[i].shownPhotos[0].url %>
+									<% } else { %>
+										<%= votes[i].shownPhotos[1].url %>
+									<% } %>
+								" />
+							</td>
+							<td>
+								<img src="
+									<% if (votes[i].vote.toString() == votes[i].shownPhotos[0]._id.toString()) { %>
+										<%= votes[i].shownPhotos[1].url %>
+									<% } else { %>
+										<%= votes[i].shownPhotos[0].url %>
+									<% } %>
+								" />
+							</td>
+						</tr>
+					<% } %>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

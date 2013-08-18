@@ -10,13 +10,38 @@
 		<h1>Choose best</h1>
 		<div class="content">
 			<div class="row-fluid">
-				<div class="span6 well">
-					<img src="<%= images[0].url %>" />
+				<div class="span6 well imageContainer">
+					<div class="row-fluid">
+						<img src="<%= images[0].url %>" />
+						<button class="btn vote" vote-id="<%= images[0]._id %>">Vote</button>
+					</div>
 				</div>
-				<div class="span6 well">
-					<img src="<%= images[1].url %>" />
+				<div class="span6 well imageContainer">
+					<div class="row-fluid">
+						<img src="<%= images[1].url %>" />
+						<button class="btn vote" vote-id="<%= images[1]._id %>">Vote</button>
+					</div>
 				</div>
 			</div>
 		</div>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/js/bootstrap.min.js"></script>
+		<script type="text/javascript">
+			$(function() {
+				$('.vote').on('click', function(event) {
+					var voteId = $(event.target).attr('vote-id');
+					$.post('/api/vote', 
+						{
+							albumId: '<%= images[0].albumId %>',
+							photos: ['<%= images[0]._id %>', '<%= images[1]._id %>'],
+							voted: voteId
+						}, 
+						function() {
+							location.reload();
+						}
+					);
+				});
+			});
+		</script>
 	</body>
 </html>
