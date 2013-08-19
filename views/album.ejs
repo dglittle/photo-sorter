@@ -7,6 +7,8 @@
 		<% if(album.images.length >= 2) { %>
 			<div class="span4">
 				<a id="sortLink" href="/sort?albumId=<%= album._id %>">Sort link</a>
+			</div>
+			<div class="span4">
 				<a id="votes" href="#">Votes link</a>
 			</div>
 		<% } %>
@@ -17,7 +19,8 @@
 				<% for(var i = 0; i < album.images.length; i++) { %>
 					<tr>
 						<td><img src="<%= album.images[i].url %>" /></td>
-						<td><span class="votesCount">50</span></td>
+						<td><span class="votesCount"><%= album.images[i].rank %></span></td>
+						<td><button image-id="<%= album.images[i]._id %>" class="btn btn-danger delete">Delete</button></td>
 					</tr>
 				<% } %>
 			</table>
@@ -46,7 +49,7 @@
 </div>
 <script>
 	$(function() {
-		$('#addImageForm').on('submit', function(event) {
+		$(document).on('submit', '#addImageForm', function(event) {
 			event.preventDefault();
 			$.post('/api/albums/<%= album._id %>', { url: $('#url').val() }).then(function() {
 				$('#newImage').modal('hide');
@@ -55,10 +58,22 @@
 				});
 			});
 		});
-		$('#votes').on('click', function(event) {
+		$(document).on('click', '#votes', function(event) {
 			event.preventDefault();
 			$.get('/api/albums/<%= album._id %>/votes', function(votes) {
 				$('.content').html(votes);
+			});
+		});
+		$(document).on('click', '.delete', function(event) {
+			var id = $(event.target).attr('image-id');
+			$.ajax({ 
+				url: '/api/images/' + id,
+				type: 'DELETE',
+				success: function() {
+					$.get('/api/albums/<%= album._id %>', function(votes) {
+						$('.content').html(votes);
+					});
+				}
 			});
 		});
 	});
